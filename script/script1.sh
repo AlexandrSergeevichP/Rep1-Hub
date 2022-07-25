@@ -5,3 +5,4 @@ echo "hellow world1"
 ls
 ls -l
 echo "Done"
+TEST
