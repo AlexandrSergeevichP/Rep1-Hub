@@ -1,0 +1,83 @@
+resource "vcd_vapp_vm" "TR-VM1" {
+
+    vapp_name                      = vcd_vapp.vApp-TR.name
+  # accept_all_eulas               = true
+  # catalog_name                   = "Linux (AVNTG)"
+  # computer_name                  = (known after apply)
+  # cpu_cores                      = 2
+  # cpu_hot_add_enabled            = false
+  # cpu_limit                      = (known after apply)
+  # cpu_priority                   = (known after apply)
+  # cpu_reservation                = (known after apply)
+    cpu_shares                     = (known after apply)
+    cpus                           = 2
+    description                    = (known after apply)
+    expose_hardware_virtualization = false
+    hardware_version               = (known after apply)
+    href                           = (known after apply)
+    id                             = (known after apply)
+    internal_disk                  = (known after apply)
+    memory                         = 2048
+    memory_hot_add_enabled         = false
+    memory_limit                   = (known after apply)
+    memory_priority                = (known after apply)
+    memory_reservation             = (known after apply)
+    memory_shares                  = (known after apply)
+    name                           = "TR-VM1"
+    os_type                        = (known after apply)
+    power_on                       = true
+    prevent_update_power_off       = false
+    sizing_policy_id               = (known after apply)
+    storage_profile                = (known after apply)
+    template_name                  = "CentOS-7-2009-x86-64-Eng-Server"
+    vapp_name                      = "vApp-TR"
+    vm_type                        = (known after apply)
+}
+    customization {
+             + admin_password                      = (sensitive value)
+             + allow_local_admin_password          = (known after apply)
+             + auto_generate_password              = (known after apply)
+             + change_sid                          = (known after apply)
+             + enabled                             = (known after apply)
+             + force                               = (known after apply)
+             + initscript                          = (known after apply)
+             + join_domain                         = (known after apply)
+             + join_domain_account_ou              = (known after apply)
+             + join_domain_name                    = (known after apply)
+             + join_domain_password                = (sensitive value)
+             + join_domain_user                    = (known after apply)
+             + join_org_domain                     = (known after apply)
+             + must_change_password_on_first_login = (known after apply)
+             + number_of_auto_logons               = (known after apply)
+           }
+
+
+     network {
+                     + adapter_type       = (known after apply)
+                     + connected          = true
+                     + ip                 = (known after apply)
+                     + ip_allocation_mode = "POOL"
+                     + is_primary         = (known after apply)
+                     + mac                = (known after apply)
+                     + name               = "vApp-Net1"
+                     + type               = "vapp"
+           }
+
+    network {
+      type               = "vapp"
+      name               = vcd_vapp_network.vApp-TR-Net.name
+      ip_allocation_mode = "POOL"
+    }
+
+    network {
+      type               = "org"
+      name               =  vcd_network_routed_v2.vApp-TR-Net.name
+      ip_allocation_mode = "POOL"
+      primery            = true
+    }
+
+    network {
+      type               = "none"
+      ip_allocation_mode = "NONE"
+      connected          = false
+    }

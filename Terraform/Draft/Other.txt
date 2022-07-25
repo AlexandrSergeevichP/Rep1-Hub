@@ -1,0 +1,25 @@
+# Create Disk and Add to VM TR-VM1
+resource "vcd_vm_internal_disk" "Disk1" {
+  vapp_name       = "vApp-TR"
+  vm_name         = "TR-VM1"
+  bus_type        = "paravirtual"
+  size_in_mb      = "10240"
+  bus_number      = 0
+  unit_number     = 1
+  storage_profile = "99_SSD_Ultra_Policy"
+  allow_vm_reboot = false
+  #depends_on      = ["vcd_vapp_vm.TR-VM1"]
+
+# Create Disk and Add to VM TR-VM2
+resource "vcd_vm_internal_disk" "Disk2" {
+  vapp_name       = "vApp-TR"
+  vm_name         = "TR-VM2"
+  bus_type        = "paravirtual"
+  size_in_mb      = "10240"
+  bus_number      = 0
+  unit_number     = 1
+  storage_profile = "99_SSD_Ultra_Policy"
+  allow_vm_reboot = false
+  #depends_on      = ["vcd_vapp_vm.TR-VM1"]
+
+}

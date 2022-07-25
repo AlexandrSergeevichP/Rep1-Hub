@@ -1,0 +1,26 @@
+ resource "vcd_vapp" "vApp-TR" {
+      href        = (known after apply)
+      id          = (known after apply)
+      name        = "vApp-TR"
+      power_on    = false
+      status      = (known after apply)
+      status_text = (known after apply)
+
+      lease {
+          runtime_lease_in_sec = (known after apply)
+          storage_lease_in_sec = (known after apply)
+
+
+
+ resource "vcd_vm_internal_disk" "Disk1" {
+     allow_vm_reboot  = false
+     vapp_name        = "vApp-TR"
+     vm_name          = "TR-VM1"
+     bus_number       = 0
+     unit_number      = 0
+     bus_type         = "paravirtual"
+     id               = (known after apply)
+     iops             = (known after apply)
+     size_in_mb       = 10240
+     storage_profile  = "99_SSD_Ultra_Policy"
+     thin_provisioned = (known after apply)
