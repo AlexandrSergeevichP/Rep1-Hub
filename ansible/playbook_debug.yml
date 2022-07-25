@@ -1,0 +1,43 @@
+---
+- name: Playbook for Variables
+  hosts: prod_servers
+  become: yes
+
+
+  vars:
+    message1: Hellow
+    message2: World
+    secret  : ASPOAPSOPASPO
+
+
+  tasks:
+
+  - name: Print Secret variable
+    debug:
+      var: secret
+
+  - debug:
+      msg: "Secret key: {{ secret }}"
+
+
+  - debug:
+      msg: "Server owner -->{{ owner }}<--"
+
+  - set_fact: full_message="{{ message1 }} {{ message2 }} from {{ owner }}"
+
+
+  - debug:
+      var: full_message 
+
+  - debug:
+      var: ansible_distribution
+
+
+  - shell: uptime
+    register: results
+
+  - debug:
+      var: results
+
+  - debug:
+     var: results.stdout

@@ -1,0 +1,12 @@
+---
+- name: Install default Apache Web Server
+  hosts: prod_servers
+  become: yes
+
+
+  tasks:
+  - name: Install Apache WebServer
+    apt: name=apache2 state=latest
+
+  - name: Start Apache end Enable service
+    service: name=apache2 state=started enabled=yes

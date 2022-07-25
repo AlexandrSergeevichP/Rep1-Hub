@@ -1,0 +1,17 @@
+---
+- name: My include playbook
+  hosts: "{{ MYHOSTS }}"
+  become: yes
+
+  vars:
+   text: "Hellow to Popass"
+
+
+  tasks:
+  - name: Ping test
+    ping:
+
+  - include: create_folders.yml
+  - include: create_files.yml     mytext="Hello to Myaush"
+
+

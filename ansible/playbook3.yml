@@ -1,0 +1,30 @@
+---
+- name: Install Apache and Upload Web Page
+  hosts: prod_servers
+  become: yes
+
+
+  vars:
+    source_file: ./MyWebSite/index.html
+    destin_file: /var/www/html
+
+
+
+  tasks:
+  - name: install Apache Web Server
+    apt: name=apache2 state=latest
+  
+  - name: Copy Page to Servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: restart Apache    
+
+  - name: start WebService and enable
+    service: name=apache2 state=started enabled=yes
+
+ 
+
+  
+  handlers:
+  - name: restart Apache
+    service: name=apache2 state=restarted
+  

@@ -1,0 +1,61 @@
+---
+- name: Install Apache and Upload Web Page
+  hosts: prod_servers
+  become: yes
+
+  vars:
+    source_folder: ./MyWebServer
+    destin_folder: /var/www/html
+
+  tasks:
+  - name: LINUX Version
+    debug: var=ansible_os_family
+
+  - block: # === Block for Ubuntu ===
+
+      - name: install Apache Web Server for Ubuntu
+        apt: name=apache2 state=latest
+
+      - name: start Web Service Ubuntu
+        service: name=apache2 state=started enabled=yes
+
+    when: ansible_os_family == "Ubuntu"
+
+ 
+
+  - block: # === Block for RedHat ===
+
+      - name: install Apache Web Server from RedHat
+        yum: name=httpd state=latest     
+
+      - name: start Web Service RedHad
+        service: name=httpd state=started enabled=yes
+
+    when: ansible_os_family == "RedHat"  
+
+
+
+  - name: Copy HomePage file to Web Server
+    copy: src={{ source_folder }}/{{ item }} dest={{ destin_folder }} mode=0555
+    loop:
+      - "index.html"
+      - "Ansible.jpg"
+      - "Terraform.jpg"
+      - "CI-CD.jpg"
+      - "Team-City.jpg"
+    notify:
+      - "Restart Apache Ubuntu"
+      - "Restart Apache RedHat"
+
+
+
+  handlers:
+  - name: Restart Apache Ubuntu
+    service: name=apache2 state=restarted
+    when: ansible_os_family == "Ubuntu"
+
+
+  - name: Restart Apache RedHat
+    service: name=httpd state=restarted
+    when: ansible_os_family == "RedHat"
+  

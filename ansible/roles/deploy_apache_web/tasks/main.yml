@@ -1,0 +1,40 @@
+---
+# tasks file for deploy_apache_web
+
+- block: # === Block for Ubuntu ===
+    - name: install Apache Web Server for Ubuntu
+      apt: name=apache2 state=latest
+
+    - name: start Web Service Ubuntu
+      service: name=apache2 state=started enabled=yes
+  when: ansible_os_family == "Debian"
+
+- block: # === Block for RedHat ===
+
+    - name: install Apache Web Server from RedHat
+      yum: name=httpd state=latest
+
+    - name: start Web Service RedHad
+      service: name=httpd state=started enabled=yes
+
+  when: ansible_os_family == "RedHat"
+
+
+- name: Generate INDEX.HTML file
+  template: src=index.j2 dest={{ destin_folder }}/index.html mode=0555
+  notify:
+    - Restart Apache Ubuntu
+    - Restart Apache RedHat
+
+
+- name: Copy HomePage file to Web Server
+  copy: src={{ item }} dest={{ destin_folder }} mode=0555
+  loop:
+    - "Ansible.jpg"
+    - "Terraform.jpg"
+    - "CI-CD.jpg"
+    - "Team-City.jpg"
+  notify:
+    - Restart Apache Ubuntu
+    - Restart Apache RedHat
+

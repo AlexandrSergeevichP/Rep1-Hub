@@ -1,0 +1,5 @@
+---
+ansible_user                 : popass
+ansible_ssh_private_key_file : /home/popass/.ssh/ansible-key
+
+

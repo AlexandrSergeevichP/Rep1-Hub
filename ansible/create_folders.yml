@@ -1,0 +1,13 @@
+---
+- name: Create Folder1
+  file:
+    path: /home/secret/Folder1
+    state: directory
+    mode: 0755
+
+- name: Create Folder2
+  file:
+    path: /home/secret/Folder2
+    state: directory
+    mode: 0755
+

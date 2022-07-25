@@ -1,0 +1,53 @@
+---
+- name: Delegate Playbook
+  hosts: "{{ MYHOSTS }}"
+  become: yes
+
+  vars:
+   text: "Hellow Popass"
+  
+  tasks:
+  - name: Ping test
+    ping:
+
+
+  - name: Unregister Server form Load Balancer
+    shell: echo This server {{ inventory_hostname }} was deregistered from our Load Balancer, node name is {{ ansible_nodename }} >> /home/log.txt
+    delegate_to: 127.0.0.1
+
+  - name: Update DataBase
+    shell: echo UPDATING DataBase
+    run_once: true
+
+
+
+  - name: Create File1
+    copy:
+      dest: /home/File1.txt
+      content: |
+        This is File№1
+        On ENGLISH Hellow World
+        On RuSSIAN {{ text }}
+    delegate_to: linux-ub02
+
+  - name: Create File2
+    copy:
+      dest: /home/File2.txt
+      content: |
+        This i File№2
+        On ENGLISH Hellow World
+        On RUSSIAN {{ text }}
+
+  
+  - name: Reboot Servers
+    shell: sleep 3 && reboot now
+    async: 1
+    poll: 0
+
+  - name: Wait till Servers will come up online
+    wait_for:
+        host: "{{ inventory_hostname }}"
+        state: started
+        delay: 5
+        timeout: 40
+    delegate_to: 127.0.0.1   

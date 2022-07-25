@@ -1,0 +1,9 @@
+---
+- name: Uninstall Apache WebServer
+  hosts: "{{ MYHOSTS }}"
+  become: yes
+
+  tasks:
+  - name: Uinstall Apache WebServer
+    apt: name=apache2 state=absent
+
